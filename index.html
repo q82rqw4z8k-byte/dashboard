@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OKX OPS DASHBOARD · 2026/05/18</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;min-height:100vh;padding:0;}
+.dash{background:#0a0a0a;color:#e8c87a;font-family:'Noto Sans SC',sans-serif;padding:20px;max-width:960px;margin:0 auto;}
+.dh{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2206;padding-bottom:12px;margin-bottom:14px;}
+.logo{font-family:'Orbitron',monospace;font-size:15px;font-weight:700;color:#e8c87a;letter-spacing:2px;}
+.logo span{color:#f5a623;}
+.dbadge{font-size:11px;color:#c9a030;background:#1a1208;border:1px solid #4a3010;padding:4px 12px;border-radius:4px;}
+.alert{background:#1a0808;border:1px solid #6a1a1a;border-radius:5px;padding:10px 14px;margin-bottom:13px;display:flex;gap:10px;align-items:flex-start;}
+.alert-t{font-size:12px;color:#f08080;line-height:1.6;font-weight:500;}
+.stitle{font-size:9px;letter-spacing:3px;color:#7a6830;text-transform:uppercase;margin-bottom:8px;}
+.mc{background:#0f0e08;border:1px solid #2a2206;border-radius:5px;padding:10px 14px;margin-bottom:13px;}
+.bar-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;}
+.bar{height:7px;background:#151206;border-radius:3px;overflow:hidden;display:flex;margin-bottom:4px;}
+.bl{height:100%;background:linear-gradient(90deg,#1a4a2e,#4caf7a);}
+.br{height:100%;background:linear-gradient(90deg,#e05050,#4a1a1a);}
+.bar-v{display:flex;justify-content:space-between;font-size:11px;}
+.bnote{font-size:10px;color:#5a5020;margin-top:4px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px;}
+.nc{background:#0f0e08;border:1px solid #2a2206;border-radius:5px;padding:10px 12px;}
+.nt{font-size:10px;letter-spacing:1px;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid #1a1608;}
+.nt.g{color:#4caf7a;}.nt.r{color:#e05050;}
+.ni{padding:5px 0;border-bottom:1px solid #111008;font-size:11px;color:#c9a84c;line-height:1.45;}
+.ni:last-child{border-bottom:none;}
+.ni b{font-size:9px;color:#6a5f38;font-weight:400;margin-right:4px;}
+.ni.grn{color:#6abf80;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:13px;}
+.cb{background:#0f0e08;border:1px solid #2a2206;border-radius:5px;padding:10px 12px;}
+.ct{font-size:9px;letter-spacing:2px;color:#7a6830;text-transform:uppercase;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid #1a1608;}
+.fi{display:flex;gap:6px;padding:5px 0;border-bottom:1px solid #111008;font-size:11px;color:#c9a84c;line-height:1.4;}
+.fi:last-child{border-bottom:none;}
+.fn{font-size:9px;color:#4a4018;font-family:'Orbitron',monospace;flex-shrink:0;margin-top:1px;}
+.mi{padding:5px 0;border-bottom:1px solid #111008;font-size:11px;color:#c9a84c;line-height:1.4;}
+.mi:last-child{border-bottom:none;}
+.mi b{font-size:9px;color:#6a5f38;font-weight:400;display:block;margin-bottom:1px;}
+.mi.red{color:#e08060;}.mi.grn{color:#6abf80;}
+.remg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.remb{background:#0f0e08;border:1px solid #2a2206;border-radius:5px;padding:10px 12px;}
+.ric{font-size:14px;margin-bottom:3px;}
+.rtt{font-size:11px;color:#e8c87a;font-weight:500;margin-bottom:4px;}
+.rd{font-size:10px;color:#6a5a28;line-height:1.5;}
+.path{font-size:10px;color:#d4a84b;display:block;margin-top:6px;line-height:1.7;background:#1a1508;border:1px solid #4a3a18;border-radius:4px;padding:5px 8px;}
+.path span{color:#f5c842;font-weight:500;}
+.rtag{display:inline-block;font-size:9px;background:#1a1508;border:1px solid #3a2a10;color:#c9a030;padding:2px 6px;border-radius:2px;margin-top:5px;}
+.tkb{background:#100f06;border:1px solid #4a3c10;border-radius:5px;padding:11px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;}
+.tkic{font-size:20px;flex-shrink:0;}
+.tkt{font-size:11px;color:#e8c87a;font-weight:500;margin-bottom:3px;}
+.tkd{font-size:10px;color:#7a6a30;line-height:1.6;}
+.tkd span{color:#c9a030;}
+.ft{font-size:9px;color:#3a3218;text-align:center;padding-top:9px;border-top:1px solid #1a1608;line-height:1.8;}
+.ft span{color:#c9a030;}
+.tag-us{font-size:8px;color:#2a5a3a;background:#081208;border:1px solid #1a3020;padding:1px 3px;border-radius:2px;margin-left:3px;vertical-align:middle;}
+.tag-cn{font-size:8px;color:#5a2a1a;background:#120808;border:1px solid #301808;padding:1px 3px;border-radius:2px;margin-left:3px;vertical-align:middle;}
+.okx-badge{font-size:8px;color:#c9a030;background:#1a1208;border:1px solid #4a3010;padding:1px 4px;border-radius:2px;margin-left:3px;vertical-align:middle;}
+hr.div{border:none;border-top:1px solid #1a1608;margin:5px 0;}
+</style>
+</head>
+<body>
+<div class="dash">
+  <div class="dh">
+    <div class="logo">OKX <span>OPS</span> DASHBOARD</div>
+    <div class="dbadge">2026 / 05 / 18 · 早报</div>
+  </div>
+
+  <div class="alert">
+    <span style="color:#e05050;font-size:14px;flex-shrink:0;">⚠</span>
+    <span class="alert-t">CLARITY Act参议院15-9通过重大监管利好；与此同时美债30年收益率升至5.12%（2007年来最高），ETF5月15日净流出$290M，BTC在$79K-$80K关键区间震荡，多空方向待定</span>
+  </div>
+
+  <div class="stitle">今日多空参与对比</div>
+  <div class="mc">
+    <div class="bar-row"><span style="color:#4caf7a;">做多</span><span style="color:#7a6830;font-size:9px;">BTC-USDT 永续合约 · 多空账户比</span><span style="color:#e05050;">做空</span></div>
+    <div class="bar"><div class="bl" style="width:60%"></div><div class="br" style="width:40%"></div></div>
+    <div class="bar-v"><span style="color:#4caf7a;font-weight:500;">🟢 多单 59.8%</span><span style="color:#7a6830;font-size:9px;">今日</span><span style="color:#e05050;font-weight:500;">空单 40.2% 🔴</span></div>
+    <hr class="div">
+    <div class="bar"><div class="bl" style="width:60%;opacity:.4"></div><div class="br" style="width:40%;opacity:.4"></div></div>
+    <div class="bar-v"><span style="color:#4caf7a;opacity:.5;font-size:10px;">多单 59.5%</span><span style="color:#3a3218;font-size:9px;">昨日</span><span style="color:#e05050;opacity:.5;font-size:10px;">空单 40.5%</span></div>
+    <div class="bnote">多头持续占主导，较昨日微升0.3%；BTC在$79K-$80K支撑位整理，多头守住则有望再攻$82K · <span class="okx-badge">OKX 实时</span> 00:00 UTC+8 起</div>
+  </div>
+
+  <div class="g2">
+    <div class="nc">
+      <div class="nt g">🟢 利多消息</div>
+      <div class="ni grn"><b>CLARITY Act通过</b>参议院银行委员会15-9通过，美国加密市场结构法案正式进入快速立法轨道<span class="tag-us">美国</span></div>
+      <div class="ni grn"><b>机构持续囤币</b>4月以来鲸鱼钱包净增约27万枚BTC，机构长期配置逻辑坚定<span class="tag-us">美国</span></div>
+      <div class="ni"><b>ETF累计流入</b>六周净流入连胜，累计净流入自2024年1月来已达$58.72B<span class="tag-us">美国</span></div>
+      <div class="ni"><b>Paul Tudor Jones</b>称BTC是"最佳抗通胀资产"，结构性配置逻辑持续强化<span class="tag-us">美国</span></div>
+    </div>
+    <div class="nc">
+      <div class="nt r">🔴 利空消息</div>
+      <div class="ni"><b>ETF单日流出</b>5月15日净流出$290.4M，六周净流入连胜终结，机构短期避险<span class="tag-us">美国</span></div>
+      <div class="ni"><b>美债收益率飙升</b>10年期升至4.55%，30年期达5.12%（2007年来最高），资金流向债券<span class="tag-us">美国</span></div>
+      <div class="ni"><b>Trump拒伊朗停火</b>称伊朗回应"完全不可接受"，油价$115+，通胀压力持续<span class="tag-us">美国</span></div>
+      <div class="ni"><b>稳定币储备下降</b>交易所稳定币储备连续下降，资金流出信号仍在<span class="tag-cn">国内</span></div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="cb">
+      <div class="ct">今日行情参考因素</div>
+      <div class="fi"><span class="fn">01/</span><span>CLARITY Act通过是本周最大监管催化剂，短期情绪正面</span></div>
+      <div class="fi"><span class="fn">02/</span><span>$79K-$80K是核心支撑区间，守住则多头结构完好</span></div>
+      <div class="fi"><span class="fn">03/</span><span>美债30年5.12%为2007年来最高，资金竞争加密市场压力大</span></div>
+      <div class="fi"><span class="fn">04/</span><span>多单59.8%稳定，多头情绪健康，无过热信号</span></div>
+      <div class="fi"><span class="fn">05/</span><span>ETF上周流出结束六周连胜，短期需观察是否恢复净流入</span></div>
+      <div class="fi"><span class="fn">06/</span><span>伊朗谈判破裂+油价$115，宏观风险溢价仍高，警惕突发事件</span></div>
+    </div>
+    <div class="cb">
+      <div class="ct">宏观动向</div>
+      <div class="mi grn"><b>CLARITY Act·立法</b>参议院银行委员会15-9通过，加密监管框架明朗化最关键一步</div>
+      <div class="mi red"><b>美债收益率·关键</b>30年期达5.12%（2007年来最高），债券吸引力大增，压制风险资产</div>
+      <div class="mi red"><b>Trump·伊朗</b>拒绝伊朗停火提案，称"完全不可接受"，中东局势继续升级</div>
+      <div class="mi red"><b>油价·$115</b>中东紧张+美国战略储备告急，Brent油价高位运行，通胀预期升温</div>
+      <div class="mi"><b>美联储·利率</b>多家大行取消降息预期，Fed维持高利率时间或超预期</div>
+      <div class="mi grn"><b>BTC脱钩迹象</b>部分机构分析师指出BTC开始独立于宏观走势，数字黄金叙事增强</div>
+    </div>
+    <div class="cb">
+      <div class="ct">华尔街动向</div>
+      <div class="mi grn"><b>Paul Tudor Jones</b>称BTC是"无可争议最佳抗通胀资产"，结构性多头定性</div>
+      <div class="mi grn"><b>21Shares CIO</b>预计BTC年内触及$10万，ETF持续吸引机构长线配置</div>
+      <div class="mi"><b>贝莱德IBIT</b>AUM约$86.92B稳居第一，机构长期配置趋势未改变</div>
+      <div class="mi red"><b>ETF六周连胜终结</b>5月15日净流出$290M，高债券收益率分流资金</div>
+      <div class="mi"><b>CoinShares报告</b>上周数字资产产品净流入$1.2B，BTC占$933M，机构信心未崩</div>
+      <div class="mi red"><b>Strategy Q1亏损</b>Q1亏损$12.54B（BTC从$87K跌至$68K所致），持仓策略不变</div>
+    </div>
+  </div>
+
+  <div class="stitle">社群提醒 · 今日活动</div>
+  <div class="remg">
+    <div class="remb">
+      <div class="ric">🧧</div>
+      <div class="rtt">今日晒单</div>
+      <div class="rd">
+        有交易的老板！截图发群参与晒单活动，晒单🧧奖励详情请看上方公告！
+        <span class="path"><span>资产</span> → <span>交易账户</span> → <span>账单</span> → <span>历史仓位</span> → 全部平仓旁 <span>⬆️</span> → 发到群内（仅限当日订单）</span>
+      </div>
+      <div class="rtag">截图发群 ↗</div>
+    </div>
+    <div class="remb">
+      <div class="ric">💰</div>
+      <div class="rtt">入金有礼</div>
+      <div class="rd">有入金的老板可以参与群内晒单活动，详情请看上方公告</div>
+      <div class="rtag">查看公告 ↗</div>
+    </div>
+  </div>
+
+  <div class="tkb">
+    <div class="tkic">💬</div>
+    <div>
+      <div class="tkt">行情交流</div>
+      <div class="tkd">欢迎各位老板在群内<span>分享今日行情看法、涨跌分析、操作心得</span>，不管看多还是看空，都可以大胆说出来！</div>
+    </div>
+  </div>
+
+  <div class="ft">仅供参考，不构成投资建议 · 🇺🇸 CoinDesk / CryptoSlate / MEXC News / CoinShares · 🇨🇳 BlockBeats / 财联社 · 多空数据：<span>OKX 实时 API</span> · 2026/05/18</div>
+</div>
+</body>
+</html>
